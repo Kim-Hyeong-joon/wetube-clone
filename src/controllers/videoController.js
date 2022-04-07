@@ -6,9 +6,9 @@ const handleSearch = (error, videos) => {
 };
 
 export const home = (req, res) => {
-  Video.find({}, handleSearch);
-  console.log("hello");
-  return res.render("home", { pageTitle: "Home", videos: [] });
+  Video.find({}, (error, videos) => {
+    return res.render("home", { pageTitle: "Home", videos: [] });
+  });
 };
 export const watch = (req, res) => {
   const { id } = req.params;
