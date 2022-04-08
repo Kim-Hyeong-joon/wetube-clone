@@ -5,10 +5,20 @@ const handleSearch = (error, videos) => {
   console.log("videos", videos);
 };
 
-export const home = (req, res) => {
-  Video.find({}, (error, videos) => {
-    return res.render("home", { pageTitle: "Home", videos: [] });
-  });
+/*
+
+Video.find({}, (error, videos) => {
+  if(error) {
+    return res.render("server-error");
+  }
+  return res.render("home", { pageTitle: "Home", videos });
+});
+
+*/
+
+export const home = async (req, res) => {
+  const videos = await Video.find({});
+  return res.render("home", { pageTitle: "Home", videos });
 };
 export const watch = (req, res) => {
   const { id } = req.params;
