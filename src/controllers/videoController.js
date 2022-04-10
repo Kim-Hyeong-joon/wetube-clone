@@ -15,6 +15,9 @@ Video.find({}, (error, videos) => {
 
 export const home = async (req, res) => {
   Video.find({}, (error, videos) => {
+    console.log("render once");
+    res.render("home", { pageTitle: "Home", videos });
+    console.log("render again");
     res.render("home", { pageTitle: "Home", videos });
   });
 };
