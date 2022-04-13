@@ -41,13 +41,13 @@ export const getUpload = (req, res) => {
 export const postUpload = (req, res) => {
   const { title, description, hashtags } = req.body;
   const video = new Video({
-    title: 5,
+    title,
     description: description,
     createdAt: Date.now(),
     hashtags: hashtags.split(",").map((word) => `#${word}`),
     meta: {
-      views: 0,
-      rating: 0,
+      views: "lala",
+      rating: "lala",
     },
   });
   console.log(video);
