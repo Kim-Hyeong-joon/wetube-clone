@@ -41,7 +41,7 @@ export const getUpload = (req, res) => {
 
 export const postUpload = async (req, res) => {
   const { title, description, hashtags } = req.body;
-  const video = new Video({
+  Video.create({
     title,
     description,
     createdAt: Date.now(),
@@ -51,6 +51,5 @@ export const postUpload = async (req, res) => {
       rating: 0,
     },
   });
-  await video.save();
   return res.redirect("/");
 };
