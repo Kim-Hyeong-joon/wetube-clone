@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
 const videoSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  createdAt: { type: Date, required: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  createdAt: { type: Date, required: true, default: Date.now },
   hashtags: [{ type: String }], // array를 쓰고, 내부의 값은 string이다.
   meta: {
-    views: Number,
-    rating: Number,
+    views: { type: Number, default: 0, required: true },
+    rating: { type: Number, default: 0, required: true },
   },
 });
 
