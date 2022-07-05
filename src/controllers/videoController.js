@@ -71,3 +71,10 @@ export const postUpload = async (req, res) => {
     });
   }
 };
+
+export const deleteVideo = async (req, res) => {
+  const { id } = req.params; // id 가져오기
+  console.log(id);
+  await Video.findByIdAndDelete(id);
+  return res.redirect("/");
+};
