@@ -149,8 +149,9 @@ export const postEdit = async (req, res) => {
       user: { _id },
     },
     body: { name, email, username, location },
+    file,
   } = req;
-
+  console.log(file);
   if (email !== req.session.user.email) {
     const exists = await User.exists({ email });
     if (exists) {
