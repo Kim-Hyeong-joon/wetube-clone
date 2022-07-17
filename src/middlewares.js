@@ -5,3 +5,19 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.loggedInUser = req.session.user || {}; // 로그인 된 user를 보내거나 없으면 빈 object를 보낸다.
   next();
 };
+
+export const protectorMiddleware = (req, res, next) => {
+  if (req.session.loggedIn) {
+    return next();
+  } else {
+    return res.redirect("/login");
+  }
+};
+
+export const publicOnlyMiddleware = (req, res, next) => {
+  if (!req.session.loggedIn) {
+    return next();
+  } else {
+    return res.redirect("/");
+  }
+};
