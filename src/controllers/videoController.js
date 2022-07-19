@@ -104,6 +104,9 @@ export const deleteVideo = async (req, res) => {
     user: { _id },
   } = req.session;
   const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404", { pageTitle: "Video not found." }); // video가 null 인 경우 에러메세지 출력
+  }
   if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
   }
