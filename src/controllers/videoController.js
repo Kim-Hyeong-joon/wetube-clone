@@ -32,7 +32,14 @@ export const watch = async (req, res) => {
 };
 export const getEdit = async (req, res) => {
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
   const video = await Video.findById(id);
+  console.log(video.owner, _id);
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
+  }
   if (!video) {
     return res.render("404", { pageTitle: "Video not found." }); // video가 null 인 경우 에러메세지 출력
   }
@@ -41,7 +48,13 @@ export const getEdit = async (req, res) => {
 export const postEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
+  const {
+    user: { _id },
+  } = req.session;
   const video = await Video.exists({ _id: id });
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
+  }
   if (!video) {
     return res.render("404", { pageTitle: "Video not found." }); // video가 null 인 경우 에러메세지 출력
   }
@@ -87,7 +100,13 @@ export const postUpload = async (req, res) => {
 
 export const deleteVideo = async (req, res) => {
   const { id } = req.params; // id 가져오기
-  console.log(id);
+  const {
+    user: { _id },
+  } = req.session;
+  const video = await Video.findById(id);
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
+  }
   await Video.findByIdAndDelete(id);
   return res.redirect("/");
 };
