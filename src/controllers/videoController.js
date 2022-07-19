@@ -1,5 +1,5 @@
-import Video from "../models/Video";
 import User from "../models/User";
+import Video from "../models/Video";
 
 const handleSearch = (error, videos) => {
   console.log("errors", error);
@@ -23,12 +23,12 @@ export const home = async (req, res) => {
 };
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id);
-  const owner = await User.findById(video.owner);
+  const video = await Video.findById(id).populate("owner");
+  console.log(video);
   if (video === null) {
     return res.status(404).render("404", { pageTitle: "Video not found." }); // video가 null 인 경우 에러메세지 출력
   }
-  return res.render("watch", { pageTitle: video.title, video, owner });
+  return res.render("watch", { pageTitle: video.title, video });
 };
 export const getEdit = async (req, res) => {
   const { id } = req.params;
@@ -66,13 +66,16 @@ export const postUpload = async (req, res) => {
     },
   } = req;
   try {
-    await Video.create({
+    const newVideo = await Video.create({
       title,
       description,
       videoUrl,
       owner: _id,
       hashtags: Video.formatHashtags(hashtags),
     });
+    const user = await User.findById(_id);
+    user.videos.push(newVideo._id);
+    await user.save();
     return res.redirect("/");
   } catch (error) {
     return res.status(400).render("upload", {
