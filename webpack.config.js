@@ -3,12 +3,16 @@ const path = require("path");
 
 module.exports = {
   entry: "./src/client/js/main.js", // 소스코드
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "css/styles.css",
+    }),
+  ],
   mode: "development",
   output: {
     // 결과물
-    filename: "main.js",
-    path: path.resolve(__dirname, "assets", "js"),
+    filename: "js/main.js",
+    path: path.resolve(__dirname, "assets"),
   },
   module: {
     rules: [
@@ -23,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ["MiniCssExtractPlugin.loader", "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
