@@ -6,19 +6,10 @@ const handleSearch = (error, videos) => {
   console.log("videos", videos);
 };
 
-/*
-
-Video.find({}, (error, videos) => {
-  if(error) {
-    return res.render("server-error");
-  }
-  return res.render("home", { pageTitle: "Home", videos });
-});
-
-*/
-
 export const home = async (req, res) => {
-  const videos = await Video.find({}).sort({ createdAt: "asc" });
+  const videos = await Video.find({})
+    .sort({ createdAt: "asc" })
+    .populate("owner");
   return res.render("home", { pageTitle: "Home", videos });
 };
 export const watch = async (req, res) => {
