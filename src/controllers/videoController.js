@@ -1,21 +1,16 @@
 import User from "../models/User";
 import Video from "../models/Video";
 
-const handleSearch = (error, videos) => {
-  console.log("errors", error);
-  console.log("videos", videos);
-};
-
 export const home = async (req, res) => {
   const videos = await Video.find({})
-    .sort({ createdAt: "asc" })
+    .sort({ createdAt: "desc" })
     .populate("owner");
   return res.render("home", { pageTitle: "Home", videos });
 };
 export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id).populate("owner");
-  console.log(video);
+
   if (video === null) {
     return res.status(404).render("404", { pageTitle: "Video not found." }); // video가 null 인 경우 에러메세지 출력
   }
@@ -27,7 +22,7 @@ export const getEdit = async (req, res) => {
     user: { _id },
   } = req.session;
   const video = await Video.findById(id);
-  console.log(video.owner, _id);
+
   if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
   }
