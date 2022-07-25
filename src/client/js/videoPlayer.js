@@ -6,6 +6,8 @@ const volumeRange = document.getElementById("volume");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
+const fullScreenBtn = document.getElementById("fullScreen");
+const videoContainer = document.getElementById("videoContainer");
 
 let volumeValue = 0.5;
 video.volume = volumeValue;
@@ -82,9 +84,35 @@ const handleTimelineChange = (event) => {
   video.currentTime = value;
 };
 
+const handleFullscreen = (event) => {
+  //FullScreen Button을 누른 경우
+  const fullscreen = document.fullscreenElement;
+  if (fullscreen) {
+    //fullscreen일 때 button을 누른 경우
+    document.exitFullscreen();
+  } else {
+    // fullscreen이 아닐 때 button을 누른 경우
+    videoContainer.requestFullscreen();
+  }
+};
+
+const handleFullScreenChange = () => {
+  //FullScreen의 상태가 변한 경우
+  const fullscreen = document.fullscreenElement;
+  if (fullscreen) {
+    // Fullscreen으로 변한 경우
+    fullScreenBtn.innerText = "Exit Full Screen";
+  } else {
+    // Fullscreen이 해제된 경우
+    fullScreenBtn.innerText = "Enter Full Screen";
+  }
+};
+
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 timeline.addEventListener("input", handleTimelineChange);
+fullScreenBtn.addEventListener("click", handleFullscreen);
+videoContainer.addEventListener("fullscreenchange", handleFullScreenChange); // esc 눌렀을 때
