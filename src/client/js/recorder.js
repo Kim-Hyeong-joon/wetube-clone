@@ -7,7 +7,7 @@ let recorder;
 const handleDownload = () => {};
 
 const handleStop = () => {
-  startBtn.innerText = "Download Recording";
+  startBtn.innerText = "Download Recording"; // stop을 누르면 Download 로 UI 업데이트 하기.
   startBtn.removeEventListener("click", handleStop);
   startBtn.addEventListener("click", handleDownload);
   recorder.stop();
