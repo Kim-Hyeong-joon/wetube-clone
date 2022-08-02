@@ -39,6 +39,7 @@ export const postEdit = async (req, res) => {
   } = req.session;
   const video = await Video.exists({ _id: id });
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "You are not the owner of the video.");
     return res.status(403).redirect("/");
   }
   if (!video) {
@@ -57,9 +58,10 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+  console.log(req.files);
   const {
     body: { title, description, hashtags },
-    file: { path: videoUrl },
+    files: { video, thumb },
     session: {
       user: { _id },
     },
@@ -68,7 +70,8 @@ export const postUpload = async (req, res) => {
     const newVideo = await Video.create({
       title,
       description,
-      videoUrl,
+      videoUrl: video[0].path,
+      thumbUrl: thumb[0].path,
       owner: _id,
       hashtags: Video.formatHashtags(hashtags),
     });
@@ -94,6 +97,7 @@ export const deleteVideo = async (req, res) => {
     return res.render("404", { pageTitle: "Video not found." }); // video가 null 인 경우 에러메세지 출력
   }
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "Not authorized");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndDelete(id);
