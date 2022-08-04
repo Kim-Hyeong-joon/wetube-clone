@@ -130,7 +130,11 @@ export const registerView = async (req, res) => {
 };
 
 export const createComment = (req, res) => {
-  console.log(req.params);
-  console.log(req.body);
+  const {
+    params: { id },
+    body: { text },
+    session: { user },
+  } = req;
+  console.log(user, text, id);
   return res.end();
 };

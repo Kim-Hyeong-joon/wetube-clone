@@ -17,6 +17,7 @@ app.set("views", process.cwd() + "/src/views");
 app.use("/public", express.static(__dirname + "/public"));
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(
   session({
