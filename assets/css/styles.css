@@ -488,8 +488,17 @@ main {
   border-radius: 10000px;
   text-align: center;
   animation: goAway 5s ease-in-out forwards;
+  z-index: 9999;
 }
 .message.error {
   background-color: tomato;
+  color: white;
+}
+.message.info {
+  background-color: #00a356;
+  color: white;
+}
+.message.success {
+  background-color: #0173ba;
   color: white;
 }
